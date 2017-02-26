@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "angular-ui-router": "registry:dt/angular-ui-router#1.1.5+20161122230850",
+    "debug": "registry:npm/debug#2.0.0+20160723033700"
+  },
+  "globalDependencies": {
+    "angular": "registry:dt/angular#1.5.0+20161208205636"
+  }
+}

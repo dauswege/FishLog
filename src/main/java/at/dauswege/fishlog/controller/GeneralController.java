@@ -1,10 +1,11 @@
 package at.dauswege.fishlog.controller;
 
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,95 +18,160 @@ import org.springframework.web.bind.annotation.RestController;
 import at.dauswege.fishlog.entity.Fish;
 import at.dauswege.fishlog.entity.FishDay;
 import at.dauswege.fishlog.entity.Fishing;
+import at.dauswege.fishlog.entity.Weather;
 import at.dauswege.fishlog.repository.rest.FishDayRepository;
 import at.dauswege.fishlog.repository.rest.FishingRepository;
 import at.dauswege.fishlog.repository.rest.PersonRepository;
+import at.dauswege.fishlog.service.WeatherLoader;
+import at.dauswege.fishlog.weather.dto.WeatherData;
 
 @RestController
-public class GeneralController {
+public class GeneralController
+{
 
-  @Autowired
-  private FishingRepository fishingRepository;
+    @Autowired
+    private FishingRepository fishingRepository;
 
-  @Autowired
-  private FishDayRepository fishDayRepository;
+    @Autowired
+    private FishDayRepository fishDayRepository;
 
-  @Autowired
-  private PersonRepository personRepository;
+    @Autowired
+    private PersonRepository personRepository;
 
-  @GetMapping("api/fishdays")
-  public List<FishDay> getFishdays() {
+    @Autowired
+    private WeatherLoader weatherLoader;
 
-    List<FishDay> fishDays = new ArrayList<>();
-    Iterable<FishDay> fishDaysIterable = fishDayRepository.findAll();
+    @GetMapping("api/fishdays")
+    public List<FishDay> getFishdays()
+    {
 
-    fishDaysIterable.forEach(fd -> fishDays.add(fd));
+        List<FishDay> fishDays = new ArrayList<>();
+        Iterable<FishDay> fishDaysIterable = fishDayRepository.findAll();
 
-    return fishDays;
-  }
+        fishDaysIterable.forEach(fd -> fishDays.add(fd));
 
-  @GetMapping("api/fishday/{day}")
-  public FishDay getFishDayByDay(
-      @PathVariable("day") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate day) {
-
-    FishDay fishDay = this.fishDayRepository.findMyFishDay(day);
-    return fishDay;
-
-  }
-
-  @PostMapping("api/fishdays")
-  public void createOrUpdateFishDay(@RequestBody FishDay fishDay) {
-
-    if (fishDay.getId() == null) {
-      fishDay.setPerson(personRepository.findMyPerson());
+        return fishDays;
     }
 
-    FishDay fishDayPersisted = fishDayRepository.save(fishDay);
+    @GetMapping("api/fishday/{day}")
+    public FishDay getFishDayByDay(
+        @PathVariable("day") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate day)
+    {
 
-    System.out.println(ToStringBuilder.reflectionToString(fishDayPersisted));
-  }
+        FishDay fishDay = this.fishDayRepository.findMyFishDay(day);
+        return fishDay;
 
-  @PostMapping("api/fishdays/{day}/fishings")
-  public void createOrUpdateFishDay(
-      @PathVariable("day") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate day,
-      @RequestBody Fishing fishing) {
-
-    FishDay fishDay = fishDayRepository.findMyFishDay(day);
-    if (fishDay == null) {
-      fishDay = new FishDay(null, day, personRepository.findMyPerson());
     }
 
-    fishing.setFishDay(fishDay);
-    fishingRepository.save(fishing);
-  }
+    @PostMapping("api/fishdays")
+    public void createOrUpdateFishDay(@RequestBody FishDay fishDay)
+    {
 
-  @GetMapping("api/fishdays/{day}/fishings")
-  public List<Fishing> getFishingsByDay(
-      @PathVariable("day") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate day) {
+        if (fishDay.getId() == null)
+        {
+            fishDay.setPerson(personRepository.findMyPerson());
+        }
 
-    List<Fishing> fishings = fishingRepository.findMyFishingsByDay(day);
+        if (fishDay.getId() == null)
+        {
 
-    return fishings;
-  }
+            fishDay.setWeather(this.getCurrentWeather());
+        }
 
-  @GetMapping("api/fishings")
-  public List<Fishing> getFishings() {
+        fishDayRepository.save(fishDay);
 
-    List<Fishing> fishings = fishingRepository.findMyFishings();
+    }
 
-    return fishings;
-  }
+    @PostMapping("api/fishdays/{day}/fishings")
+    public void createOrUpdateFishDay(
+        @PathVariable("day") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate day,
+        @RequestBody Fishing fishing)
+    {
 
-  @DeleteMapping("api/fishings/{fishing}")
-  public void deleteFishing(@PathVariable("fishing") Long id) {
+        FishDay fishDay = fishDayRepository.findMyFishDay(day);
+        if (fishDay == null)
+        {
+            fishDay = new FishDay(null, day, personRepository.findMyPerson(), null);
+        }
 
-    fishingRepository.delete(id);
-  }
+        if (fishing.getId() == null)
+        {
+            fishing.setWeather(this.getCurrentWeather());
+        }
 
-  @GetMapping("api/constants/fishes")
-  public Fish[] getFishes() {
+        fishing.setFishDay(fishDay);
+        fishingRepository.save(fishing);
+    }
 
-    return Fish.values();
-  }
+    @GetMapping("api/fishdays/{day}/fishings")
+    public List<Fishing> getFishingsByDay(
+        @PathVariable("day") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate day)
+    {
+
+        List<Fishing> fishings = fishingRepository.findMyFishingsByDay(day);
+
+        return fishings;
+    }
+
+    @GetMapping("api/fishings")
+    public List<Fishing> getFishings()
+    {
+
+        List<Fishing> fishings = fishingRepository.findMyFishings();
+
+        return fishings;
+    }
+
+    @DeleteMapping("api/fishings/{fishing}")
+    public void deleteFishing(@PathVariable("fishing") Long id)
+    {
+
+        fishingRepository.delete(id);
+    }
+
+    @GetMapping("api/constants/fishes")
+    public Fish[] getFishes()
+    {
+
+        return Fish.values();
+    }
+
+    private Weather getCurrentWeather()
+    {
+        Weather weather = null;
+        try
+        {
+
+            WeatherData weatherData = weatherLoader.loadWeather();
+
+            weather = new Weather();
+
+            weather.setMain(weatherData.getWeather().get(0).getMain());
+            weather.setDescription(weatherData.getWeather().get(0).getDescription());
+            weather.setIcon(weatherData.getWeather().get(0).getIcon());
+            weather.setCloudiness(weatherData.getClouds().getAll());
+            weather.setVisibility(weatherData.getVisibility());
+
+            weather.setTemp(weatherData.getMain().getTemp().floatValue());
+            weather.setHumidity(weatherData.getMain().getHumidity());
+            weather.setPressure(weatherData.getMain().getPressure());
+            weather.setWindDirection(weatherData.getWind().getDeg());
+            weather.setWindSpeed(weatherData.getWind().getSpeed().floatValue());
+
+            weather.setCityId(weatherData.getId());
+            weather.setCityName(weatherData.getName());
+
+        }
+        catch (MalformedURLException e)
+        {
+            e.printStackTrace();
+        }
+        catch (URISyntaxException e)
+        {
+            e.printStackTrace();
+        }
+
+        return weather;
+    }
 
 }

@@ -21,6 +21,7 @@ namespace fishing.log{
         fishings: Fishing[];
         fishingTime: Date;
         fishingDate: Date;
+        toggleDetailsContainer: Fishing[];
 
         editMode: boolean;
         
@@ -33,8 +34,9 @@ namespace fishing.log{
             this.fishingTime = new Date();
             this.fishingTime.setSeconds(0);
             this.fishingTime.setMilliseconds(0);
-
+            
             this.fishingDate = new Date();
+            this.toggleDetailsContainer = [];
 
             this.getAvailableFishes();
             this.getFishings();
@@ -71,6 +73,23 @@ namespace fishing.log{
         public resetFishing(){
             this.fishing = {};
             this.editMode = false;
+        }
+
+        public toggleDetails(fishing: Fishing){
+            var idx = this.toggleDetailsContainer.indexOf(fishing);
+            if(idx<0){
+                this.toggleDetailsContainer.push(fishing);
+            } else {
+                this.toggleDetailsContainer.splice(idx, 1);
+            }
+        }
+
+        public showDetails(fishing: Fishing){
+            return !(this.toggleDetailsContainer.indexOf(fishing)<0);
+        }
+
+        public getIconUrl(iconId: string){
+            return "http://openweathermap.org/img/w/" + iconId + ".png";
         }
 
         private getAvailableFishes(){

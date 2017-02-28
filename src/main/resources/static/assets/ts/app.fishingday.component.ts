@@ -14,7 +14,7 @@ namespace fishing.log{
         }
 
         $onInit(){
-
+            
         }
 
         private getFishingDay(fishingDayDate: Date){

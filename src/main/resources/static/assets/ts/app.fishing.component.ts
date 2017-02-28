@@ -95,6 +95,13 @@ namespace fishing.log{
     
     }
 
-    angular.module('fishingLog').controller('FishingController', FishingController)
+    // angular.module('fishingLog').controller('FishingController', FishingController);
+    angular.module('fishingLog').component('fishingComponent',{
+        bindings: {},
+        templateUrl: "fishing.html",
+        controller: FishingController,
+        controllerAs: "vm"
+    } 
+    );
 
 }

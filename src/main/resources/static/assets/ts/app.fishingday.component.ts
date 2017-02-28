@@ -13,6 +13,10 @@ namespace fishing.log{
             
         }
 
+        $onInit(){
+
+        }
+
         private getFishingDay(fishingDayDate: Date){
             this.$http.get("api/fishingDays/" + this.getDateString(fishingDayDate))
             .then(result => {
@@ -34,5 +38,10 @@ namespace fishing.log{
 
     }
 
-    angular.module('fishingLog').controller('FishingDayController', FishingDayController)
+    angular.module('fishingLog')
+    .component('fishingdayComponent',{
+        templateUrl: "fishingday.html",
+        controller: FishingDayController,
+        controllerAs: "vm"
+    });
 }

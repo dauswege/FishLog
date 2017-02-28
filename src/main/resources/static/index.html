@@ -7,21 +7,22 @@
         <link rel="stylesheet" href="dist/style/css/vendor.css"/>
     </head>
     <body ng-app="fishingLog" >
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                     <a class="navbar-brand" href="index.html">
+                         <span class="glyphicon glyphicon-home"></span> FishLog
+                    </a>
+                </div>
+            </div>
+        </nav>
     	<br/>
-        <div class="container">
-        	<a href="fishing.html">
-	            <button type="button" class="btn btn-default btn-lg col-md-4">
-	                <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Fang!
-	            </button>
-            </a>
-        </div>
+        <br/>
+        <br/>
         <br/>
         <div class="container">
-        	<a href="fishingday.html">
-	            <button type="button" class="btn btn-default btn-lg col-md-4">
-	                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Fischen gehen!
-	            </button>
-            </a>
+            <div ui-view=""></div>
         </div>
+        
     </body>
 </html>

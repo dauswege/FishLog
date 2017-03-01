@@ -12,7 +12,7 @@ namespace fishing.log {
                     template: "<overview-component></overview-component>"
                 })
                 .state("fishing", {
-                    url: "/fishing",
+                    url: "/fishing/{date}",
                     template: "<fishing-component></fishing-component>"
                 })
                 .state("fishingday", {

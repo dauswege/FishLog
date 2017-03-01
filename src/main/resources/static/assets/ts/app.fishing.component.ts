@@ -14,7 +14,7 @@ namespace fishing.log{
 
     class FishingController{
 
-        static $inject = ['$http', '$filter'];
+        static $inject = ['$http', '$filter', '$state'];
 
         fishes: Array<String>;
         fishing: any = <Fishing>{};
@@ -25,12 +25,12 @@ namespace fishing.log{
 
         editMode: boolean;
         
-        constructor(private $http: ng.IHttpService, private $filter: ng.IFilterService){
+        constructor(private $http: ng.IHttpService, private $filter: ng.IFilterService, private $state: angular.ui.IStateParamsService){
             
         }
 
         $onInit(){
-            
+            this.fishingDate = this.$state.params.date;
             this.fishingTime = new Date();
             this.fishingTime.setSeconds(0);
             this.fishingTime.setMilliseconds(0);

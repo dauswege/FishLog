@@ -1,4 +1,13 @@
 <div>
-<h1> FishingDays !!!!!</h1>
+    	<h1> FishingDays !!!!!</h1>
+        <h2>{{vm.fishingDays}}</h2>
+
+        <div ng-repeat="fishingDay in vm.fishingDays">
+            <a ui-sref="fishing({date: fishingDay.day})">
+                <button type="button" class="btn btn-default btn-lg col-md-4">
+                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{fishingDay.day}}
+                </button>
+            </a>
+        </div>
 
 </div>

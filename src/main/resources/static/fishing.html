@@ -3,6 +3,11 @@
 </div>
 <form name="form-horizontal">
     <div class="form-group">
+        <label for="dateInput" class="control-label">am</label>
+        <input id="dateInput" class="form-control" placeholder="Datum" type="date" ng-change="vm.dateChanged()" ng-model="vm.fishingDate"/>
+    </div>
+    <hr/>
+    <div class="form-group">
         <label for="fishSelect" class="control-label">Fisch</label>
         <select id="fishSelect" class="form-control" placeholder="Fisch" ng-model="vm.fishing.fish">
             <option ng-repeat="fish in vm.fishes">{{fish}}</option>
@@ -23,10 +28,7 @@
             <label for="timeInput" class="control-label">Uhrzeit</label>
             <input id="timeInput" class="form-control" placeholder="Uhrzeit" type="time" ng-model="vm.fishingTime"/>
         </div>
-        <div class="form-group col-xs-6">
-            <label for="dateInput" class="control-label">am</label>
-            <input id="dateInput" class="form-control" placeholder="Datum" type="date" ng-model="vm.fishingDate"/>
-        </div>
+        
     </div>
 
     <button type="submit" ng-click="vm.addFishing()" class="btn btn-default" value="save" >Speichern</button>

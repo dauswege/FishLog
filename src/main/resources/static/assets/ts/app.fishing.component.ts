@@ -29,13 +29,18 @@ namespace fishing.log{
             
         }
 
-        $onInit(){
-            this.fishingDate = this.$state.params.date;
+        $onInit(){ 
+            if(this.$state.params.date !== undefined && this.$state.params.date.toString() !== ""){
+                // this.fishingDate = this.$state.params.date;
+               this.fishingDate = new Date(this.$state.params.date);
+            } else{
+                this.fishingDate = new Date();
+            }
             this.fishingTime = new Date();
             this.fishingTime.setSeconds(0);
             this.fishingTime.setMilliseconds(0);
             
-            this.fishingDate = new Date();
+           
             this.toggleDetailsContainer = [];
 
             this.getAvailableFishes();
@@ -79,8 +84,10 @@ namespace fishing.log{
             var idx = this.toggleDetailsContainer.indexOf(fishing);
             if(idx<0){
                 this.toggleDetailsContainer.push(fishing);
+                this.onEditFishing(fishing);
             } else {
                 this.toggleDetailsContainer.splice(idx, 1);
+                this.resetFishing();
             }
         }
 
@@ -90,6 +97,14 @@ namespace fishing.log{
 
         public getIconUrl(iconId: string){
             return "http://openweathermap.org/img/w/" + iconId + ".png";
+        }
+
+        public dateChanged(){
+            this.toggleDetailsContainer = [];
+
+            this.getAvailableFishes();
+            this.getFishings();
+            this.editMode = false;
         }
 
         private getAvailableFishes(){

@@ -1,7 +1,15 @@
 package at.dauswege.fishlog.entity;
 
-public enum Fish {
+public enum Fish
+{
 
-  REGENBOGENFORELLE, BACHFORELLE, SAIBLING, AESCHE, HUCHEN;
+    REGENBOGENFORELLE,
+    BACHFORELLE,
+    SEEFORELLE,
+    SAIBLING,
+    AESCHE,
+    HUCHEN,
+    KARPFEN,
+    SONSTIGE;
 
 }

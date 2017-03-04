@@ -10,47 +10,46 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Weather
-{
+public class Weather {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @Column
-    private String main;
+  @Column
+  private String main;
 
-    @Column
-    private String description;
+  @Column
+  private String description;
 
-    @Column
-    private String icon;
+  @Column
+  private String icon;
 
-    @Column
-    private Float temp;
+  @Column
+  private Float temp;
 
-    @Column
-    private Integer pressure;
+  @Column
+  private Integer pressure;
 
-    @Column
-    private Integer humidity;
+  @Column
+  private Integer humidity;
 
-    @Column
-    private Integer visibility;
+  @Column
+  private Integer visibility;
 
-    @Column
-    private Float windSpeed;
+  @Column
+  private Float windSpeed;
 
-    @Column
-    private Integer windDirection;
+  @Column
+  private Integer windDirection;
 
-    @Column
-    private Integer cloudiness;
+  @Column
+  private Integer cloudiness;
 
-    @Column
-    private Integer cityId;
+  @Column
+  private Integer cityId;
 
-    @Column
-    private String cityName;
+  @Column
+  private String cityName;
 
 }

@@ -15,12 +15,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.data.rest.core.annotation.RestResource;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import org.springframework.data.rest.core.annotation.RestResource;
 
 @Entity
 @Getter
@@ -28,35 +28,34 @@ import org.springframework.data.rest.core.annotation.RestResource;
 @AllArgsConstructor
 @NoArgsConstructor
 @RestResource
-public class Fishing
-{
+public class Fishing {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @Column
-    @NotNull
-    private Fish fish;
+  @Enumerated(EnumType.STRING)
+  @Column
+  @NotNull
+  private Fish fish;
 
-    @Column
-    @NotNull
-    private Integer length;
+  @Column
+  @NotNull
+  private Integer length;
 
-    @Column
-    private Integer weight;
+  @Column
+  private Integer weight;
 
-    @Column
-    @NotNull
-    private LocalTime fishingTime;
+  @Column
+  @NotNull
+  private LocalTime fishingTime;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @NotNull
-    private FishDay fishDay;
+  @ManyToOne(cascade = CascadeType.PERSIST)
+  @NotNull
+  private FishDay fishDay;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "weather_id")
-    private Weather weather;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "weather_id")
+  private Weather weather;
 
 }

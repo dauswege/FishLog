@@ -23,6 +23,12 @@
         <label for="weightInput" class="control-label">Gewicht</label>
         <input id="weightInput" class="form-control" placeholder="Gewicht" type="number" ng-model="vm.fishing.weight"/>
     </div>
+
+    <div class="form-group">
+        <label for="weightInput" class="control-label">Kommentar</label>
+        <input id="weightInput" class="form-control" type="text" ng-model="vm.fishing.comment"/>
+    </div>
+
     <div class="row">
         <div class="form-group col-xs-5">
             <label for="timeInput" class="control-label">Uhrzeit</label>
@@ -49,10 +55,9 @@
             <td>{{fishing.fish}}</td>
             <td>{{fishing.length}}</td>
             <!--<td>{{fishing.weight}}</td>-->
-            <!--<td>
-                <a ng-click="vm.onEditFishing(fishing)"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+            <td ng-if="vm.showDetails(fishing)">
                 <a ng-click="vm.deleteFishing(fishing)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-            </td>-->
+            </td>
         </tr>
         <tr ng-if="fishing.weight>0" ng-show="vm.showDetails(fishing)" style="font-style: italic">
             <td></td>

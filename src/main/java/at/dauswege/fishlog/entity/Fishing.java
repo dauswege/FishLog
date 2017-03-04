@@ -47,6 +47,9 @@ public class Fishing {
   private Integer weight;
 
   @Column
+  private String comment;
+
+  @Column
   @NotNull
   private LocalTime fishingTime;
 

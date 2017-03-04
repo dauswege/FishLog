@@ -7,8 +7,9 @@ namespace fishing.log{
         fish: string;
         length: number; 
         weight: number;
+        comment: string;
         fishingTime: string;
-        constructor(fish: string, length: number, weight: number, fishingTime: string);
+        // constructor(fish: string, length: number, weight: number, fishingTime: string);
         
     }
 
@@ -69,14 +70,16 @@ namespace fishing.log{
         public deleteFishing(fishingToDelete: Fishing){
 
             this.$http.delete("api/fishings/" + fishingToDelete.id).then(result => {
+                this.resetFishing();
                 this.getFishings();
-                this.editMode = true;
+                
             })
 
         }
 
         public resetFishing(){
             this.fishing = {};
+            this.fishing.fish = this.fishes[0];
             this.editMode = false;
         }
 

@@ -1,0 +1,19 @@
+<form name="form-horizontal">
+    <div class="form-group">
+        <label for="dateInput" class="control-label">am</label>
+        <input id="dateInput" class="form-control" placeholder="Datum" type="date" ng-model="vm.session.fishDay.day"/>
+    </div>
+
+    <div class="form-group">
+        <label for="startTimeInput" class="control-label">Startzeit: </label>
+        <input id="startTimeInput" class="form-control" placeholder="Startzeit" type="time" ng-model="vm.session.startTime"/>
+    </div>
+
+    <div class="form-group">
+        <label for="endTimeInput" class="control-label">Endzeit: </label>
+        <input id="endTimeInput" class="form-control" placeholder="Endzeit" type="time" ng-model="vm.session.endTime"/>
+    </div>
+
+    <button type="submit" ng-click="vm.saveSession()" class="btn btn-default" value="save">Speichern</button>
+
+</form>

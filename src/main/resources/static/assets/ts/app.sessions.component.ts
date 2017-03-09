@@ -1,27 +1,40 @@
 namespace fishing.log{
     'use strict';
 
+    interface ISession{        
+        id: number;
+        startTime: Date;
+        endTime: Date;
+        fishDay: {
+            id: number,
+            day: Date
+        }
+    }
+
+    interface ISessionsDay{
+        day: Date,
+        sessions: ISession[]
+    }
 
     class SessionsController{
         
         static $inject = ["$http"];
 
-        fishingDays: any[];
+        sessionsDays: ISessionsDay[];
 
         constructor(private $http: ng.IHttpService){
             
         }
 
         $onInit(){
-
-            this.fishingDays = [];
-            this.getFishingDays();
+            this.sessionsDays = [];
+            this.getMySessions();
         }
 
-        private getFishingDays(){
-            this.$http.get("api/fishdays").then(result => {
-                this.fishingDays = <any[]> result.data;
-            })
+        private getMySessions(){
+            this.$http.get("api/sessions").then(result => {
+                this.sessionsDays = <ISessionsDay[]> result.data;
+            });
         }
 
     }

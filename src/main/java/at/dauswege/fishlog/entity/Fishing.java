@@ -53,9 +53,10 @@ public class Fishing {
   @NotNull
   private LocalTime fishingTime;
 
-  @ManyToOne(cascade = CascadeType.PERSIST)
+  @ManyToOne
   @NotNull
-  private FishDay fishDay;
+  private Session session;
+  // private FishDay fishDay;
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "weather_id")

@@ -15,13 +15,15 @@ import at.dauswege.fishlog.entity.Fishing;
 public interface FishingRepository extends CrudRepository<Fishing, Long> {
 
   @Query("select f from Fishing f "
-      + "LEFT JOIN f.fishDay fd "
+      + "LEFT JOIN f.session s "
+      + "LEFT JOIN s.fishDay fd "
       + "WHERE fd.person.id = ?#{authentication.principal} "
       + "AND fd.day = :day")
   public List<Fishing> findMyFishingsByDay(@Param("day") LocalDate day);
 
   @Query("select f from Fishing f "
-      + "LEFT JOIN f.fishDay fd "
+      + "LEFT JOIN f.session s "
+      + "LEFT JOIN s.fishDay fd "
       + "WHERE fd.person.id = ?#{authentication.principal}")
   public List<Fishing> findMyFishings();
 

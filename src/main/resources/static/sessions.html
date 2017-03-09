@@ -1,13 +1,15 @@
 <div>
  
-        <div ng-repeat="fishingDay in vm.fishingDays | orderBy:'day'" class="btn-group btn-group-lg btn-group-justified">
-            
+        <div ng-repeat="day in vm.sessionsDays | orderBy:'day'" class="btn-group btn-group-lg btn-group-justified">
+            <div ng-repeat="session in day.sessions">
                 <a ui-sref="fishing({date: fishingDay.day})" class="btn-group">
                     
                     <button type="button" class="btn btn-default btn-lg ">
-                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{fishingDay.day | date}}
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 
+                        {{day.day | date}} - {{session.startTime | date }}
                     </button>
                 </a>
+            </div>
             
         </div>
 

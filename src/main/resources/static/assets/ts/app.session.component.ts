@@ -1,26 +1,6 @@
 namespace fishing.log{
     'use strict';
 
-    interface ISession{
-        id: number;
-        startTime: Date;
-        endTime: Date;
-        fishDay: {
-            id: number,
-            day: Date
-        }
-    }
-
-    interface ISessionSaveDTO{
-        id: number;
-        startTime: string;
-        endTime: string;
-        fishDay: {
-            id: number,
-            day: string
-        }
-    }
-
     class SessionController{
 
         static $inject = ["$http", "$filter","$state"];
@@ -39,10 +19,15 @@ namespace fishing.log{
             startTime.setMilliseconds(0);
             startTime.setSeconds(0);
 
-            this.session = <ISession>{
-                startTime: startTime,
-                fishDay: {day: new Date()}
-            };
+            if(this.$state.params.sessionId != undefined && this.$state.params.sessionId != ""){
+                var sessionId = this.$state.params.sessionId;
+                this.getSession(sessionId);
+            } else {
+                this.session = <ISession>{
+                    startTime: startTime,
+                    fishDay: {day: new Date()}
+                };
+            }
         }
 
         public saveSession(){
@@ -57,6 +42,12 @@ namespace fishing.log{
             };
             this.$http.post("api/sessions", sessionToSave).then(result => {
 
+            });
+        }
+
+        private getSession(sessionId){
+            this.$http.get("api/sessions/" + sessionId).then(result => {
+                this.session = <ISession> result.data;
             });
         }
 

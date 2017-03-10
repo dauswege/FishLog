@@ -23,4 +23,11 @@ public interface SessionRepository extends CrudRepository<Session, Long> {
       + "and fd.person.id = ?#{authentication.principal}")
   public List<FishDay> findSessionByFishDay(@Param("day") LocalDate day);
 
+  @Query("select s from Session s "
+      + "left join s.fishDay fd "
+      + "where fd.day = :day "
+      + "and s.endTime is null "
+      + "and fd.person.id = ?#{authentication.principal}")
+  public Session findMyOpenSessionByDay(@Param("day") LocalDate day);
+
 }

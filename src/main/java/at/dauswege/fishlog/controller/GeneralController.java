@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -90,6 +91,17 @@ public class GeneralController {
 
   }
 
+  @GetMapping("api/sessions/{sessionId}")
+  public SessionDTO getSession(@PathVariable(name = "sessionId") Long sessionId) {
+
+    Session session = this.sessionRepository.findOne(sessionId);
+
+    SessionDTO sessionDTO = new SessionDTO(session.getId(), session.getManual(),
+        session.getStartTime(), session.getEndTime(), session.getStartWeather());
+
+    return sessionDTO;
+  }
+
   @GetMapping("api/sessions")
   public List<FishDaySessionsDTO> getMySessions() {
 
@@ -110,6 +122,23 @@ public class GeneralController {
     });
 
     return result;
+  }
+
+  @GetMapping("api/sessions/active/{day}")
+  private SessionDTO getActiveSession(
+      @PathVariable(name = "day") @DateTimeFormat(iso = ISO.DATE) LocalDate day) {
+
+    Session session = this.sessionRepository.findMyOpenSessionByDay(day);
+
+    SessionDTO sessionDTO = null;
+    if (session != null) {
+
+      sessionDTO = new SessionDTO(session.getId(), session.getManual(),
+          session.getStartTime(), session.getEndTime(), session.getStartWeather());
+
+    }
+    return sessionDTO;
+
   }
 
   @PostMapping("api/sessions/{sessionId}/fishings")

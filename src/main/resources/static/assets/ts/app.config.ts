@@ -24,7 +24,7 @@ namespace fishing.log {
                     template: "<sessions-component></sessions-component>"
                 })
                 .state("session", {
-                    url: "/session",
+                    url: "/session/{sessionId}",
                     template: "<session-component></session-component>"
                 })
                 ;

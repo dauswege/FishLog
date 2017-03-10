@@ -1,20 +1,5 @@
 namespace fishing.log{
-    'use strict';
-
-    interface ISession{        
-        id: number;
-        startTime: Date;
-        endTime: Date;
-        fishDay: {
-            id: number,
-            day: Date
-        }
-    }
-
-    interface ISessionsDay{
-        day: Date,
-        sessions: ISession[]
-    }
+    'use strict'; 
 
     class SessionsController{
         

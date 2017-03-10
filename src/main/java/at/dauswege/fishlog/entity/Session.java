@@ -31,6 +31,7 @@ public class Session {
   private Boolean manual;
 
   @Column
+  @NotNull
   private LocalTime startTime;
 
   @Column

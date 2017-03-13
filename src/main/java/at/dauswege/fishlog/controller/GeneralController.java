@@ -25,7 +25,6 @@ import at.dauswege.fishlog.entity.FishDay;
 import at.dauswege.fishlog.entity.Fishing;
 import at.dauswege.fishlog.entity.Session;
 import at.dauswege.fishlog.entity.Weather;
-import at.dauswege.fishlog.repository.rest.FishDayRepository;
 import at.dauswege.fishlog.repository.rest.FishingRepository;
 import at.dauswege.fishlog.repository.rest.PersonRepository;
 import at.dauswege.fishlog.repository.rest.SessionRepository;
@@ -39,9 +38,6 @@ public class GeneralController {
   private FishingRepository fishingRepository;
 
   @Autowired
-  private FishDayRepository fishDayRepository;
-
-  @Autowired
   private SessionRepository sessionRepository;
 
   @Autowired
@@ -50,36 +46,36 @@ public class GeneralController {
   @Autowired
   private WeatherLoader weatherLoader;
 
-  @GetMapping("api/fishdays")
-  public List<FishDay> getFishdays() {
+  // @GetMapping("api/fishdays")
+  // public List<FishDay> getFishdays() {
+  //
+  // List<FishDay> fishDays = new ArrayList<>();
+  // Iterable<FishDay> fishDaysIterable = fishDayRepository.findAll();
+  //
+  // fishDaysIterable.forEach(fd -> fishDays.add(fd));
+  //
+  // return fishDays;
+  // }
 
-    List<FishDay> fishDays = new ArrayList<>();
-    Iterable<FishDay> fishDaysIterable = fishDayRepository.findAll();
+  // @GetMapping("api/fishday/{day}")
+  // public FishDay getFishDayByDay(
+  // @PathVariable("day") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate day) {
+  //
+  // FishDay fishDay = this.fishDayRepository.findMyFishDay(day);
+  // return fishDay;
+  //
+  // }
 
-    fishDaysIterable.forEach(fd -> fishDays.add(fd));
-
-    return fishDays;
-  }
-
-  @GetMapping("api/fishday/{day}")
-  public FishDay getFishDayByDay(
-      @PathVariable("day") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate day) {
-
-    FishDay fishDay = this.fishDayRepository.findMyFishDay(day);
-    return fishDay;
-
-  }
-
-  @PostMapping("api/fishdays")
-  public void createOrUpdateFishDay(@RequestBody FishDay fishDay) {
-
-    if (fishDay.getId() == null) {
-      fishDay.setPerson(personRepository.findMyPerson());
-    }
-
-    fishDayRepository.save(fishDay);
-
-  }
+  // @PostMapping("api/fishdays")
+  // public void createOrUpdateFishDay(@RequestBody FishDay fishDay) {
+  //
+  // if (fishDay.getId() == null) {
+  // fishDay.setPerson(personRepository.findMyPerson());
+  // }
+  //
+  // fishDayRepository.save(fishDay);
+  //
+  // }
 
   @PostMapping("api/sessions")
   public void createOrUpdateSession(@RequestBody Session session) {
@@ -92,14 +88,11 @@ public class GeneralController {
   }
 
   @GetMapping("api/sessions/{sessionId}")
-  public SessionDTO getSession(@PathVariable(name = "sessionId") Long sessionId) {
+  public Session getSession(@PathVariable(name = "sessionId") Long sessionId) {
 
     Session session = this.sessionRepository.findOne(sessionId);
 
-    SessionDTO sessionDTO = new SessionDTO(session.getId(), session.getManual(),
-        session.getStartTime(), session.getEndTime(), session.getStartWeather());
-
-    return sessionDTO;
+    return session;
   }
 
   @GetMapping("api/sessions")
@@ -125,19 +118,12 @@ public class GeneralController {
   }
 
   @GetMapping("api/sessions/active/{day}")
-  private SessionDTO getActiveSession(
+  private Session getActiveSession(
       @PathVariable(name = "day") @DateTimeFormat(iso = ISO.DATE) LocalDate day) {
 
     Session session = this.sessionRepository.findMyOpenSessionByDay(day);
 
-    SessionDTO sessionDTO = null;
-    if (session != null) {
-
-      sessionDTO = new SessionDTO(session.getId(), session.getManual(),
-          session.getStartTime(), session.getEndTime(), session.getStartWeather());
-
-    }
-    return sessionDTO;
+    return session;
 
   }
 

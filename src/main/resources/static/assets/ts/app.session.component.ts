@@ -47,7 +47,35 @@ namespace fishing.log{
 
         private getSession(sessionId){
             this.$http.get("api/sessions/" + sessionId).then(result => {
-                this.session = <ISession> result.data;
+                var tmp = <ISession> result.data;
+                this.session = {
+                    id: tmp.id,
+                    startTime: undefined,
+                    endTime: undefined,
+                    fishDay: {
+                        id: tmp.fishDay.id,
+                        day: new Date(tmp.fishDay.day)
+                    }
+                };
+                
+                if(tmp.startTime != undefined){
+                    this.session.startTime = new Date();
+                    var timeValues: string[] = (<string>tmp.startTime).split(":");
+                    this.session.startTime.setHours(timeValues[0]);
+                    this.session.startTime.setMinutes(timeValues[1]);
+                    this.session.startTime.setSeconds(timeValues[2]);
+                    this.session.startTime.setMilliseconds(0);
+                }
+                
+                if(tmp.endTime != undefined){
+                    this.session.endTime = new Date();
+                    var timeValues: string[] = (<string>tmp.endTime).split(":");
+                    this.session.endTime.setHours(timeValues[0]);
+                    this.session.endTime.setMinutes(timeValues[1]);
+                    this.session.endTime.setSeconds(timeValues[2]);
+                    this.session.endTime.setMilliseconds(0);
+                }
+
             });
         }
 

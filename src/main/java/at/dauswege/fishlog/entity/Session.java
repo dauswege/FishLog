@@ -21,28 +21,32 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Session {
+public class Session
+{
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-  @Column
-  private Boolean manual;
+    @Column
+    private Boolean manual;
 
-  @Column
-  @NotNull
-  private LocalTime startTime;
+    @Column
+    @NotNull
+    private LocalTime startTime;
 
-  @Column
-  private LocalTime endTime;
+    @Column
+    private LocalTime endTime;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "start_weather_id")
-  private Weather startWeather;
+    @Column
+    private String comment;
 
-  @ManyToOne(cascade = CascadeType.PERSIST)
-  @NotNull
-  private FishDay fishDay;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "start_weather_id")
+    private Weather startWeather;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @NotNull
+    private FishDay fishDay;
 
 }

@@ -1,9 +1,15 @@
 <p>
-    <a ui-sref="fishing">
+
+    <a ng-if="vm.session" ui-sref="fishing({ sessionId: vm.session.id})">
         <button type="button" class="btn btn-default btn-lg col-md-4">
             <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Fang!
         </button>
     </a>
+    <!--<a ng-if="vm.session == undefined" ui-sref="session({ sessionId: vm.session.id })">
+        <button type="button" class="btn btn-default btn-lg col-md-4">
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Fang!
+        </button>
+    </a>-->
 </p>    
 
 <p ng-if="vm.session">

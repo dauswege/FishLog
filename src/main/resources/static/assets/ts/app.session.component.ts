@@ -19,8 +19,8 @@ namespace fishing.log{
             startTime.setMilliseconds(0);
             startTime.setSeconds(0);
 
-            if(this.$state.params.sessionId != undefined && this.$state.params.sessionId != ""){
-                var sessionId = this.$state.params.sessionId;
+            var sessionId: string = <string> this.$state.params["sessionId"];
+            if(sessionId != undefined && sessionId != ""){
                 this.getSession(sessionId);
             } else {
                 this.session = <ISession>{
@@ -30,28 +30,39 @@ namespace fishing.log{
             }
         }
 
+        public getIconUrl(iconId: string){
+            return "http://openweathermap.org/img/w/" + iconId + ".png";
+        }
+
         public saveSession(){
             var sessionToSave = <ISessionSaveDTO> {
                 id: this.session.id,
                 startTime: this.getTimeString(this.session.startTime),
                 endTime: this.getTimeString(this.session.endTime),
+                comment: this.session.comment,
                 fishDay: {
                     id: this.session.fishDay.id,
                     day: this.getDateString(this.session.fishDay.day)
                 }
             };
             this.$http.post("api/sessions", sessionToSave).then(result => {
-
+                this.$state.go("session", {"sessionId": result.data});
             });
+        }
+
+        public goBack(){
+            this.$state.go("overview");
         }
 
         private getSession(sessionId){
             this.$http.get("api/sessions/" + sessionId).then(result => {
-                var tmp = <ISession> result.data;
+                var tmp = <any> result.data;
                 this.session = {
                     id: tmp.id,
                     startTime: undefined,
                     endTime: undefined,
+                    comment: tmp.comment,
+                    startWeather: tmp.startWeather,
                     fishDay: {
                         id: tmp.fishDay.id,
                         day: new Date(tmp.fishDay.day)
@@ -60,7 +71,7 @@ namespace fishing.log{
                 
                 if(tmp.startTime != undefined){
                     this.session.startTime = new Date();
-                    var timeValues: string[] = (<string>tmp.startTime).split(":");
+                    var timeValues: any[] = tmp.startTime.split(":");
                     this.session.startTime.setHours(timeValues[0]);
                     this.session.startTime.setMinutes(timeValues[1]);
                     this.session.startTime.setSeconds(timeValues[2]);
@@ -69,7 +80,7 @@ namespace fishing.log{
                 
                 if(tmp.endTime != undefined){
                     this.session.endTime = new Date();
-                    var timeValues: string[] = (<string>tmp.endTime).split(":");
+                    var timeValues: any[] = tmp.endTime.split(":");
                     this.session.endTime.setHours(timeValues[0]);
                     this.session.endTime.setMinutes(timeValues[1]);
                     this.session.endTime.setSeconds(timeValues[2]);

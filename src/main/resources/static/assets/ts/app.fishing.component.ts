@@ -21,22 +21,24 @@ namespace fishing.log{
         fishing: any = <Fishing>{};
         fishings: Fishing[];
         fishingTime: Date;
-        fishingDate: Date;
+        // fishingDate: Date;
         toggleDetailsContainer: Fishing[];
+        sessionId: number;
 
         editMode: boolean;
         
-        constructor(private $http: ng.IHttpService, private $filter: ng.IFilterService, private $state: angular.ui.IStateParamsService){
+        constructor(private $http: ng.IHttpService, private $filter: ng.IFilterService, private $state: angular.ui.IStateService){
             
         }
 
         $onInit(){ 
-            if(this.$state.params.date !== undefined && this.$state.params.date.toString() !== ""){
-                // this.fishingDate = this.$state.params.date;
-               this.fishingDate = new Date(this.$state.params.date);
-            } else{
-                this.fishingDate = new Date();
-            }
+            // if(this.$state.params.date !== undefined && this.$state.params.date.toString() !== ""){
+            //     // this.fishingDate = this.$state.params.date;
+            //    this.fishingDate = new Date(this.$state.params.date);
+            // } else{
+            //     this.fishingDate = new Date();
+            // }
+            this.sessionId = this.$state.params["sessionId"];
             this.fishingTime = new Date();
             this.fishingTime.setSeconds(0);
             this.fishingTime.setMilliseconds(0);
@@ -54,7 +56,7 @@ namespace fishing.log{
 
             this.fishing.fishingTime = this.getTimeString(this.fishingTime);
 
-            this.$http.post("api/fishdays/" +this.getDateString(this.fishingDate)+'/fishings', this.fishing)
+            this.$http.post("api/sessions/" + this.sessionId +'/fishings', this.fishing)
             .then(result => {
                 this.getFishings();
                 this.editMode = false;
@@ -118,7 +120,7 @@ namespace fishing.log{
         }
 
         private getFishings(){
-            this.$http.get("api/fishdays/" + this.getDateString(this.fishingDate) + '/fishings')
+            this.$http.get("api/sessions/" + this.sessionId + '/fishings')
             .then(result => {this.fishings = <Fishing[]>result.data});
         }
 

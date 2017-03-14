@@ -25,6 +25,12 @@
 
 <table class="table table-striped table-condensed" ng-show="vm.session.startWeather">
     <tr  style="font-style: italic">
+        <td></td>
+        <td>Anmerkung</td>
+        <td ng-if="vm.session.comment">{{vm.session.comment}}</td>
+        <td ng-hide="vm.session.comment">Keine Anmerkungen vorhanden</td>
+    </tr>
+    <tr  style="font-style: italic">
         <td><img class="img-responsive" ng-src="http://openweathermap.org/img/w/{{vm.session.startWeather.icon}}.png"/></td>
         <td>Wetter</td>
         <td>{{vm.session.startWeather.description}}</td>
@@ -46,3 +52,6 @@
     </tr>
 
 </table>
+
+<hr/>
+<div ui-view=""></div>

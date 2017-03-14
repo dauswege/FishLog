@@ -13,7 +13,12 @@ namespace fishing.log {
                 })
                 .state("fishing", {
                     url: "/sessions/{sessionId}/fishings",
-                    template: "<fishing-component></fishing-component>"
+                    template: "<fishing-component></fishing-component>",
+                    component: "fishing"
+                })
+                .state("fishing.table", {
+                    template: "<fishings-table-component></fishings-table-component>",
+                    parent: "fishing"
                 })
                 .state("fishingday", {
                     url: "/fishingday",
@@ -26,6 +31,10 @@ namespace fishing.log {
                 .state("session", {
                     url: "/session/{sessionId}",
                     template: "<session-component></session-component>"
+                })
+                .state("session.fishingstable", {
+                    template: "<fishings-table-component></fishings-table-component>",
+                    parent: "session"
                 })
                 ;
 

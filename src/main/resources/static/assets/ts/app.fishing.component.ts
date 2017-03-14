@@ -50,6 +50,8 @@ namespace fishing.log{
             this.getFishings();
             this.editMode = false;
 
+            this.$state.transitionTo("fishing.table", {sessionId: this.sessionId});
+
         }
 
         public addFishing(){

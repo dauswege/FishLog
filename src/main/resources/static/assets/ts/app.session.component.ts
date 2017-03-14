@@ -22,6 +22,7 @@ namespace fishing.log{
             var sessionId: string = <string> this.$state.params["sessionId"];
             if(sessionId != undefined && sessionId != ""){
                 this.getSession(sessionId);
+                this.$state.transitionTo("session.fishingstable", {sessionId: sessionId});
             } else {
                 this.session = <ISession>{
                     startTime: startTime,

@@ -3,16 +3,17 @@
         <th>Uhrzeit</th>
         <th>Fisch</th>
         <th>Länge</th>
-        <!--<th>Gewicht</th>-->
-        <!--<th></th>-->
+        <th></th>
     </thead>
     <tbody>
         <tr ng-repeat-start="fishing in vm.fishings" ng-click="vm.toggleDetails(fishing)">
             <td>{{fishing.fishingTime}}</td>
             <td>{{fishing.fish}}</td>
             <td>{{fishing.length}}</td>
-            <!--<td>{{fishing.weight}}</td>-->
             <td ng-if="vm.showDetails(fishing)">
+                <a ui-sref="fishing({ sessionId: vm.sessionId, fishingId: fishing.id})">
+                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                </a>
                 <a ng-click="vm.deleteFishing(fishing)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
             </td>
         </tr>
@@ -20,26 +21,31 @@
             <td></td>
             <td>Gewicht</td>
             <td>{{fishing.weight}} Gramm</td>
+            <td></td>
         </tr>
         <tr ng-show="vm.showDetails(fishing)" style="font-style: italic">
             <td><img class="img-responsive" ng-src="http://openweathermap.org/img/w/{{fishing.weather.icon}}.png"/></td>
             <td>Wetter</td>
             <td>{{fishing.weather.description}}</td>
+            <td></td>
         </tr>
         <tr ng-show="vm.showDetails(fishing)" style="font-style: italic">
             <td></td>
             <td>Temperatur</td>
             <td>{{fishing.weather.temp}}° C</td>
+            <td></td>
         </tr>
         <tr ng-show="vm.showDetails(fishing)" style="font-style: italic">
             <td></td>
             <td>Wind</td>
             <td>{{fishing.weather.windSpeed}} m/s | Richtung {{fishing.weather.direction}}°</td>
+            <td></td>
         </tr>
         <tr  ng-show="vm.showDetails(fishing)" style="font-style: italic" ng-repeat-end="">
             <td></td>
             <td>Druck</td>
             <td>{{fishing.weather.pressure}} hPa</td>
+            <td></td>
         </tr>
     </tbody>
 </table>

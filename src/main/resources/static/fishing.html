@@ -2,11 +2,7 @@
     <p ng-if="vm.editMode" class="bg-danger" > Achtung. EditMode!</p>
 </div>
 <form name="form-horizontal">
-    <!--<div class="form-group">
-        <label for="dateInput" class="control-label">am</label>
-        <input id="dateInput" class="form-control" placeholder="Datum" type="date" ng-change="vm.dateChanged()" ng-model="vm.fishingDate"/>
-    </div>
-    <hr/>-->
+
     <div class="form-group">
         <label for="fishSelect" class="control-label">Fisch</label>
         <select id="fishSelect" class="form-control" placeholder="Fisch" ng-model="vm.fishing.fish">
@@ -41,20 +37,17 @@
     <button ng-click="vm.resetFishing()" ng-if="vm.editMode" class="btn btn-default" value="save" >Abbrechen</button>
 </form>
 
-<table class="table table-striped table-condensed">
+<!--<table class="table table-striped table-condensed">
     <thead>
         <th>Uhrzeit</th>
         <th>Fisch</th>
         <th>Länge</th>
-        <!--<th>Gewicht</th>-->
-        <!--<th></th>-->
     </thead>
     <tbody>
         <tr ng-repeat-start="fishing in vm.fishings" ng-click="vm.toggleDetails(fishing)">
             <td>{{fishing.fishingTime}}</td>
             <td>{{fishing.fish}}</td>
             <td>{{fishing.length}}</td>
-            <!--<td>{{fishing.weight}}</td>-->
             <td ng-if="vm.showDetails(fishing)">
                 <a ng-click="vm.deleteFishing(fishing)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
             </td>
@@ -88,5 +81,5 @@
 </table>
 
 <hr/>
-<hr/>
+<hr/>-->
 <div ui-view=""></div>

@@ -9,7 +9,6 @@ namespace fishing.log{
         weight: number;
         comment: string;
         fishingTime: string;
-        // constructor(fish: string, length: number, weight: number, fishingTime: string);
         
     }
 
@@ -21,9 +20,9 @@ namespace fishing.log{
         fishing: any = <Fishing>{};
         fishings: Fishing[];
         fishingTime: Date;
-        // fishingDate: Date;
         toggleDetailsContainer: Fishing[];
         sessionId: number;
+        fishingId: number;
 
         editMode: boolean;
         
@@ -32,25 +31,24 @@ namespace fishing.log{
         }
 
         $onInit(){ 
-            // if(this.$state.params.date !== undefined && this.$state.params.date.toString() !== ""){
-            //     // this.fishingDate = this.$state.params.date;
-            //    this.fishingDate = new Date(this.$state.params.date);
-            // } else{
-            //     this.fishingDate = new Date();
-            // }
+            
             this.sessionId = this.$state.params["sessionId"];
+            this.fishingId = this.$state.params["fishingId"];
             this.fishingTime = new Date();
             this.fishingTime.setSeconds(0);
             this.fishingTime.setMilliseconds(0);
-            
-           
+
             this.toggleDetailsContainer = [];
 
             this.getAvailableFishes();
-            this.getFishings();
+            // this.getFishings();
             this.editMode = false;
 
-            this.$state.transitionTo("fishing.table", {sessionId: this.sessionId});
+            if(this.fishingId != undefined){
+                this.getFishing(this.fishingId);
+            }
+
+            this.refreshFishings();
 
         }
 
@@ -62,6 +60,7 @@ namespace fishing.log{
             .then(result => {
                 this.getFishings();
                 this.editMode = false;
+                this.refreshFishings();
             });   
 
         }
@@ -77,7 +76,7 @@ namespace fishing.log{
                 this.resetFishing();
                 this.getFishings();
                 
-            })
+            });
 
         }
 
@@ -106,12 +105,9 @@ namespace fishing.log{
             return "http://openweathermap.org/img/w/" + iconId + ".png";
         }
 
-        public dateChanged(){
-            this.toggleDetailsContainer = [];
 
-            this.getAvailableFishes();
-            this.getFishings();
-            this.editMode = false;
+        private refreshFishings(){
+            this.$state.transitionTo("fishing.table", {sessionId: this.sessionId}, true);
         }
 
         private getAvailableFishes(){
@@ -121,10 +117,17 @@ namespace fishing.log{
             });
         }
 
-        private getFishings(){
-            this.$http.get("api/sessions/" + this.sessionId + '/fishings')
-            .then(result => {this.fishings = <Fishing[]>result.data});
+        private getFishing(fishingId: number){
+            this.$http.get("api/fishings/" + fishingId)
+            .then(result => {
+                this.fishing = result.data;
+            });
         }
+
+        // private getFishings(){
+        //     this.$http.get("api/sessions/" + this.sessionId + '/fishings')
+        //     .then(result => {this.fishings = <Fishing[]>result.data});
+        // }
 
         private getDateString(tmp: Date){
             return this.$filter('date')(tmp, 'yyyy-MM-dd');
@@ -138,7 +141,6 @@ namespace fishing.log{
 
     // angular.module('fishingLog').controller('FishingController', FishingController);
     angular.module('fishingLog').component('fishingComponent',{
-        bindings: {},
         templateUrl: "fishing.html",
         controller: FishingController,
         controllerAs: "vm"

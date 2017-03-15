@@ -27,21 +27,30 @@ public class ApplicationInitializer implements ApplicationRunner {
   @Override
   public void run(ApplicationArguments arg0) throws Exception {
 
-    Person personDavid = new Person();
-    personDavid.setFirstname("David");
-    personDavid.setLastname("Ausweger");
-    personDavid.setUsername("daus");
-    personDavid.setMailAddress("daftinga@gmail.com");
-    personDavid.setPassword(bCryptPasswordEncoder.encode("pwd"));
-    personDavid = personRepository.save(personDavid);
+    Person personDavid = personRepository.findOneByMailAddressOrUsername(null, "daus");
+    if (personDavid == null) {
 
-    Person personWolfgang = new Person();
-    personWolfgang.setFirstname("Wolfgang");
-    personWolfgang.setLastname("Ausweger");
-    personWolfgang.setUsername("waus");
-    personWolfgang.setMailAddress("wolfang.ausweger@gmail.com");
-    personWolfgang.setPassword(bCryptPasswordEncoder.encode("pwd"));
-    personWolfgang = personRepository.save(personWolfgang);
+      personDavid = new Person();
+      personDavid.setFirstname("David");
+      personDavid.setLastname("Ausweger");
+      personDavid.setUsername("daus");
+      personDavid.setMailAddress("daftinga@gmail.com");
+      personDavid.setPassword(bCryptPasswordEncoder.encode("pwd"));
+      personDavid = personRepository.save(personDavid);
+    }
+
+    Person personWolfgang = personRepository.findOneByMailAddressOrUsername(null, "waus");
+
+    if (personWolfgang == null) {
+
+      personWolfgang = new Person();
+      personWolfgang.setFirstname("Wolfgang");
+      personWolfgang.setLastname("Ausweger");
+      personWolfgang.setUsername("waus");
+      personWolfgang.setMailAddress("wolfang.ausweger@gmail.com");
+      personWolfgang.setPassword(bCryptPasswordEncoder.encode("pwd"));
+      personWolfgang = personRepository.save(personWolfgang);
+    }
 
   }
 

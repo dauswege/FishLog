@@ -1,0 +1,33 @@
+spring:
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+      
+  datasource:
+    url: jdbc:h2:mem:dataSource
+    driver-class-name: org.h2.Driver
+server:
+  port: 8080
+#logging:
+#  config: c:/temp/logback_prod.xml  
+---
+
+spring:
+  profiles: prod
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect 
+    hibernate:
+      ddl-auto: none
+  datasource:
+    url: jdbc:mysql://diskstation:3306/fish
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: fish
+    password: Kfo3iF5u1RGuYOuM
+server:
+  port: 8083

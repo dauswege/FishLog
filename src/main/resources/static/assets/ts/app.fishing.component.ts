@@ -33,22 +33,23 @@ namespace fishing.log{
         $onInit(){ 
             
             this.sessionId = this.$state.params["sessionId"];
-            this.fishingId = this.$state.params["fishingId"];
+            if(this.$state.params["fishingId"] !== undefined && this.$state.params["fishingId"] != ""){
+                this.fishingId = this.$state.params["fishingId"];
+            }
+            
+            this.getAvailableFishes();
+
             this.fishingTime = new Date();
             this.fishingTime.setSeconds(0);
             this.fishingTime.setMilliseconds(0);
 
             this.toggleDetailsContainer = [];
 
-            this.getAvailableFishes();
-            // this.getFishings();
             this.editMode = false;
 
             if(this.fishingId != undefined){
                 this.getFishing(this.fishingId);
             }
-
-            this.refreshFishings();
 
         }
 
@@ -58,7 +59,7 @@ namespace fishing.log{
 
             this.$http.post("api/sessions/" + this.sessionId +'/fishings', this.fishing)
             .then(result => {
-                this.getFishings();
+                // this.getFishings();
                 this.editMode = false;
                 this.refreshFishings();
             });   
@@ -74,7 +75,7 @@ namespace fishing.log{
 
             this.$http.delete("api/fishings/" + fishingToDelete.id).then(result => {
                 this.resetFishing();
-                this.getFishings();
+                // this.getFishings();
                 
             });
 

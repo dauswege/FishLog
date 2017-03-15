@@ -11,10 +11,12 @@
             <td>{{fishing.fish}}</td>
             <td>{{fishing.length}}</td>
             <td ng-if="vm.showDetails(fishing)">
-                <a ui-sref="fishing({ sessionId: vm.sessionId, fishingId: fishing.id})">
-                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-                </a>
-                <a ng-click="vm.deleteFishing(fishing)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                <span>
+                    <a ui-sref="fishing({ sessionId: vm.sessionId, fishingId: fishing.id})">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    </a>
+                    <a ng-click="vm.deleteFishing(fishing)"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+                </span>
             </td>
         </tr>
         <tr ng-if="fishing.weight>0" ng-show="vm.showDetails(fishing)" style="font-style: italic">

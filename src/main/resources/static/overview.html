@@ -1,36 +1,32 @@
-<p>
+<div ng-cloak="">
+    <p>
+        <a ng-if="vm.session" ui-sref="fishing({ sessionId: vm.session.id})">
+            <button type="button" class="btn btn-default btn-lg col-md-4">
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Fang!
+            </button>
+        </a>
+    </p>    
 
-    <a ng-if="vm.session" ui-sref="fishing({ sessionId: vm.session.id})">
-        <button type="button" class="btn btn-default btn-lg col-md-4">
-            <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Fang!
-        </button>
-    </a>
-    <!--<a ng-if="vm.session == undefined" ui-sref="session({ sessionId: vm.session.id })">
-        <button type="button" class="btn btn-default btn-lg col-md-4">
-            <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Fang!
-        </button>
-    </a>-->
-</p>    
+    <p ng-if="vm.session">
+        <a ui-sref="session({ sessionId: vm.session.id })">
+            <button type="button" class="btn btn-default btn-lg col-md-4">
+            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Aktuelle Session ab {{vm.session.startTime | date}}
+            </button>
+        </a>
+    </p>
+    <p ng-if="!vm.session">
+        <a ui-sref="session">
+            <button type="button" class="btn btn-default btn-lg col-md-4">
+                <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Fischen gehen!
+            </button>
+        </a>
+    </p>
 
-<p ng-if="vm.session">
-    <a ui-sref="session({ sessionId: vm.session.id })">
-        <button type="button" class="btn btn-default btn-lg col-md-4">
-        <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Aktuelle Session ab {{vm.session.startTime | date}}
-        </button>
-    </a>
-</p>
-<p ng-if="!vm.session">
-    <a ui-sref="session">
-        <button type="button" class="btn btn-default btn-lg col-md-4">
-            <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Fischen gehen!
-        </button>
-    </a>
-</p>
-
-<p>
-    <a ui-sref="sessions">
-        <button type="button" class="btn btn-default btn-lg col-md-4">
-            <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Sessions
-        </button>
-    </a>
-</p>
+    <p>
+        <a ui-sref="sessions">
+            <button type="button" class="btn btn-default btn-lg col-md-4">
+                <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Sessions
+            </button>
+        </a>
+    </p>
+</div>

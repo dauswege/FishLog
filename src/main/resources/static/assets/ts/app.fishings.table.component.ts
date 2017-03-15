@@ -37,8 +37,7 @@ namespace fishing.log{
 
         public onEditFishing(fishing){
             // this.editMode = true;
-            // this.fishing = fishing;
-            console.log("on edit clicked");
+            // this.fishing = fishing
         }
 
         public deleteFishing(fishingToDelete: Fishing){

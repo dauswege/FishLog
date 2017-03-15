@@ -51,6 +51,13 @@ namespace fishing.log{
             });
         }
 
+        public setEndTime(){
+            var endTime = new Date();
+            endTime.setMilliseconds(0);
+            endTime.setSeconds(0);
+            this.session.endTime = endTime;
+        }
+
         public goBack(){
             this.$state.go("overview");
         }

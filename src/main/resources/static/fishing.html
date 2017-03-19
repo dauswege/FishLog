@@ -1,7 +1,13 @@
+<div ng-show="vm.loadingCnt>0">
+    <div class="col-sm-12">
+        <uib-progressbar class="progress-striped active" />
+    </div>
+</div>
+
 <div ng-cloak="">
     <p ng-if="vm.editMode" class="bg-danger" > Achtung. EditMode!</p>
 </div>
-<form name="form-horizontal" ng-cloak="">
+<form name="form-horizontal" ng-hide="vm.loadingCnt>0" ng-cloak="">
 
     <div class="form-group">
         <label for="fishSelect" class="control-label">Fisch</label>

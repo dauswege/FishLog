@@ -65,6 +65,18 @@ public class GeneralController {
     return session;
   }
 
+  @DeleteMapping("api/sessions/{sessionId}")
+  public void deleteSession(@PathVariable(name = "sessionId") Long sessionId) {
+
+    List<Fishing> myFishingsBySessionId =
+        this.fishingRepository.findMyFishingsBySessionId(sessionId);
+
+    if (myFishingsBySessionId.size() == 0) {
+      this.sessionRepository.delete(sessionId);
+    }
+
+  }
+
   @GetMapping("api/sessions")
   public List<FishDaySessionsDTO> getMySessions() {
 

@@ -6,6 +6,7 @@ namespace fishing.log{
         static $inject = ["$http", "$filter","$state"];
 
         session: ISession;
+        loading: boolean = true;
 
         constructor(private $http: ng.IHttpService, 
                     private $filter: ng.IFilterService, 
@@ -28,6 +29,7 @@ namespace fishing.log{
                     startTime: startTime,
                     fishDay: {day: new Date()}
                 };
+                this.loading = false;
             }
         }
 
@@ -36,6 +38,7 @@ namespace fishing.log{
         }
 
         public saveSession(){
+            this.loading = true;
             var sessionToSave = <ISessionSaveDTO> {
                 id: this.session.id,
                 startTime: this.getTimeString(this.session.startTime),
@@ -48,6 +51,7 @@ namespace fishing.log{
             };
             this.$http.post("api/sessions", sessionToSave).then(result => {
                 this.$state.go("session", {"sessionId": result.data});
+                this.loading = false;
             });
         }
 
@@ -58,11 +62,22 @@ namespace fishing.log{
             this.session.endTime = endTime;
         }
 
+        public delete(){
+            this.loading=true;
+            this.$http.delete("api/sessions/" + this.session.id)
+            .then(result => {
+                this.$state.go("sessions");
+                this.loading=false;
+            })
+            ;
+        }
+
         public goBack(){
             this.$state.go("overview");
         }
 
         private getSession(sessionId){
+            this.loading = true;
             this.$http.get("api/sessions/" + sessionId).then(result => {
                 var tmp = <any> result.data;
                 this.session = {
@@ -94,6 +109,8 @@ namespace fishing.log{
                     this.session.endTime.setSeconds(timeValues[2]);
                     this.session.endTime.setMilliseconds(0);
                 }
+
+                this.loading = false;
 
             });
         }

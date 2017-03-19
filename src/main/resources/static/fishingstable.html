@@ -7,8 +7,8 @@
     </thead>
     <tbody>
         <tr ng-repeat-start="fishing in vm.fishings" ng-click="vm.toggleDetails(fishing)">
-            <td>{{fishing.fishingTime}}</td>
-            <td>{{fishing.fish}}</td>
+                <td>{{fishing.fishingTime}}</td>
+            <td><b>{{fishing.fish}}</b></td>
             <td>{{fishing.length}}</td>
             <td ng-if="vm.showDetails(fishing)">
                 <span>

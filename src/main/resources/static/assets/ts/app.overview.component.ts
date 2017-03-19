@@ -6,6 +6,7 @@ namespace fishing.log{
         static $inject = ["$http", "$filter"];
 
         session: ISession;
+        loading: boolean= true;
 
         constructor(private $http: ng.IHttpService, private $filter: ng.IFilterService){
 
@@ -18,6 +19,7 @@ namespace fishing.log{
         private getActiveSession(){
             this.$http.get("api/sessions/active/" + this.getDateString(new Date())).then(result => {
                 this.session = <ISession> result.data;
+                this.loading = false;
             });
         }
 

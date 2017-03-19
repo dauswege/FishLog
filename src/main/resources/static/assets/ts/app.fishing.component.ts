@@ -25,6 +25,7 @@ namespace fishing.log{
         fishingId: number;
 
         editMode: boolean;
+        loadingCnt: number = 0;
         
         constructor(private $http: ng.IHttpService, private $filter: ng.IFilterService, private $state: angular.ui.IStateService){
             
@@ -55,6 +56,8 @@ namespace fishing.log{
 
         public addFishing(){
 
+            this.loadingCnt++;
+
             this.fishing.fishingTime = this.getTimeString(this.fishingTime);
 
             this.$http.post("api/sessions/" + this.sessionId +'/fishings', this.fishing)
@@ -62,6 +65,7 @@ namespace fishing.log{
                 // this.getFishings();
                 this.editMode = false;
                 this.refreshFishings();
+                this.loadingCnt--;
             });   
 
         }
@@ -72,11 +76,11 @@ namespace fishing.log{
         }
 
         public deleteFishing(fishingToDelete: Fishing){
-
+            this.loadingCnt++;
             this.$http.delete("api/fishings/" + fishingToDelete.id).then(result => {
                 this.resetFishing();
                 // this.getFishings();
-                
+                this.loadingCnt--;
             });
 
         }
@@ -112,16 +116,20 @@ namespace fishing.log{
         }
 
         private getAvailableFishes(){
+            this.loadingCnt++;
             this.$http.get("api/constants/fishes").then(result => {
                 this.fishes = <Array<String>> result.data;
                 this.fishing.fish = this.fishes[0];
+                this.loadingCnt--;
             });
         }
 
         private getFishing(fishingId: number){
+            this.loadingCnt++;
             this.$http.get("api/fishings/" + fishingId)
             .then(result => {
                 this.fishing = result.data;
+                this.loadingCnt--;
             });
         }
 

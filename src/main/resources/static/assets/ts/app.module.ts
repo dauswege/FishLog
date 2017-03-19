@@ -3,5 +3,5 @@
 namespace fishing.log{
     'use strict';
 
-    angular.module('fishingLog', ['ui.router', 'ui.bootstrap']);    
+    angular.module('fishingLog', ['ui.router', 'ui.bootstrap']);
 }

@@ -6,6 +6,7 @@ namespace fishing.log{
         static $inject = ["$http"];
 
         sessionsDays: ISessionsDay[];
+        loading: boolean = true;
 
         constructor(private $http: ng.IHttpService){
             
@@ -17,8 +18,10 @@ namespace fishing.log{
         }
 
         private getMySessions(){
+            this.loading = true;
             this.$http.get("api/sessions").then(result => {
                 this.sessionsDays = <ISessionsDay[]> result.data;
+                this.loading = false;
             });
         }
 

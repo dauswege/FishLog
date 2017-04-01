@@ -7,6 +7,7 @@ namespace fishing.log{
 
         session: ISession;
         loading: boolean = true;
+        createWeather: boolean = true;
 
         constructor(private $http: ng.IHttpService, 
                     private $filter: ng.IFilterService, 
@@ -49,7 +50,7 @@ namespace fishing.log{
                     day: this.getDateString(this.session.fishDay.day)
                 }
             };
-            this.$http.post("api/sessions", sessionToSave).then(result => {
+            this.$http.post("api/sessions?createWeather=" + this.createWeather, sessionToSave).then(result => {
                 this.$state.go("session", {"sessionId": result.data});
                 this.loading = false;
             });

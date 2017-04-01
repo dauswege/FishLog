@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import at.dauswege.fishlog.dto.FishDaySessionsDTO;
@@ -47,11 +48,14 @@ public class GeneralController {
   private WeatherLoader weatherLoader;
 
   @PostMapping("api/sessions")
-  public Long createOrUpdateSession(@RequestBody Session session) {
+  public Long createOrUpdateSession(@RequestBody Session session,
+      @RequestParam("createWeather") Boolean createWeather) {
 
     session.getFishDay().setPerson(personRepository.findMyPerson());
     if (session.getId() == null) {
-      session.setStartWeather(this.getCurrentWeather());
+      if (createWeather) {
+        session.setStartWeather(this.getCurrentWeather());
+      }
     } else {
       Session tmp = this.sessionRepository.findOne(session.getId());
       session.setStartWeather(tmp.getStartWeather());
@@ -123,12 +127,16 @@ public class GeneralController {
 
   @PostMapping("api/sessions/{sessionId}/fishings")
   public void createFishing(@PathVariable("sessionId") Long sessionId,
-      @RequestBody Fishing fishing) {
+      @RequestBody Fishing fishing, @RequestParam("createWeather") Boolean createWeather) {
 
     fishing.setSession(sessionRepository.findOne(sessionId));
 
     if (fishing.getId() == null) {
-      fishing.setWeather(getCurrentWeather());
+      if (createWeather) {
+        fishing.setWeather(getCurrentWeather());
+      }
+    } else {
+
     }
 
     fishingRepository.save(fishing);

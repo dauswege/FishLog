@@ -26,6 +26,7 @@ namespace fishing.log{
 
         editMode: boolean;
         loadingCnt: number = 0;
+        createWeather: boolean = true;
         
         constructor(private $http: ng.IHttpService, private $filter: ng.IFilterService, private $state: angular.ui.IStateService){
             
@@ -60,7 +61,7 @@ namespace fishing.log{
 
             this.fishing.fishingTime = this.getTimeString(this.fishingTime);
 
-            this.$http.post("api/sessions/" + this.sessionId +'/fishings', this.fishing)
+            this.$http.post("api/sessions/" + this.sessionId +'/fishings?createWeather=' + this.createWeather, this.fishing)
             .then(result => {
                 // this.getFishings();
                 this.editMode = false;

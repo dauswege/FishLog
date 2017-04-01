@@ -50,7 +50,12 @@ public class GeneralController {
   public Long createOrUpdateSession(@RequestBody Session session) {
 
     session.getFishDay().setPerson(personRepository.findMyPerson());
-    session.setStartWeather(this.getCurrentWeather());
+    if (session.getId() == null) {
+      session.setStartWeather(this.getCurrentWeather());
+    } else {
+      Session tmp = this.sessionRepository.findOne(session.getId());
+      session.setStartWeather(tmp.getStartWeather());
+    }
 
     session = sessionRepository.save(session);
     return session.getId();
